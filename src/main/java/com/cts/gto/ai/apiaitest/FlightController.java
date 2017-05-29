@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cts.gto.ai.util.ObjectToJson;
+
 
 @Controller
 public class FlightController {
@@ -28,8 +30,10 @@ public class FlightController {
 	public String bookFlight(@RequestParam(value="geo-city", defaultValue="India") String country) {
 		System.out.println("invoked bookFlight method");
 		LOGGER.info("invoked bookFlight method");
-		
-		return "you want to book flight from "+country;
+		LOGGER.info("input request geo-city:"+country);
+		String jsonString = ObjectToJson.getJsonString("you want to book flight from "+country);
+		LOGGER.info(jsonString);
+		return jsonString;
 	}
 
 }
