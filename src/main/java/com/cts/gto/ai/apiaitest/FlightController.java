@@ -1,6 +1,8 @@
 package com.cts.gto.ai.apiaitest;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -29,11 +31,25 @@ public class FlightController {
 	
 	@RequestMapping(value = "/bookFlight", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String bookFlight(@RequestBody() FlightQuery query) {
-		System.out.println("invoked bookFlight method");
-		LOGGER.info("invoked bookFlight method");
-		LOGGER.info("input request geo-city:"+query.getDestination());
-		String jsonString = ObjectToJson.getJsonString("you want to book flight from "+query.getSource());
+	public String bookFlight(@RequestBody() String query) {
+		JSONObject jsonObject;
+		String source = "";
+		try {
+			jsonObject = ObjectToJson.getJsonObject(query).getJSONObject("result").getJSONObject("parameters");
+			System.out.println("invoked bookFlight method");
+			LOGGER.info("invoked bookFlight method");
+		
+				
+				LOGGER.info("input request geo-city:"+jsonObject.getString("destination"));
+			
+			 source = source = jsonObject.getString("source");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		String jsonString = ObjectToJson.getJsonString("you want to book flight from "+source);
 		LOGGER.info(jsonString);
 		return jsonString;
 	}
