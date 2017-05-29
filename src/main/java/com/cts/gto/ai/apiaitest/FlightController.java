@@ -25,7 +25,7 @@ public class FlightController {
 	
 	@RequestMapping(value = "/bookFlight", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String bookFlight(@RequestParam(value="name", defaultValue="India") String country) {
+	public String bookFlight(@RequestParam(value="geo-city", defaultValue="India") String country) {
 		System.out.println("invoked bookFlight method");
 		LOGGER.info("invoked bookFlight method");
 		
