@@ -49,9 +49,30 @@ public class FlightController {
 		}
 		
 		
-		String jsonString = ObjectToJson.getJsonString("you want to book flight from "+source);
-		LOGGER.info(jsonString);
-		return jsonString;
+		//String jsonString = ObjectToJson.getJsonString("you want to book flight from "+source);
+		//LOGGER.info(jsonString);
+//		{
+//	        "speech": speech,
+//	        "displayText": speech,
+//	        # "data": data,
+//	        # "contextOut": [],
+//	        "source": "apiai-weather-webhook-sample"
+//	    }
+		JSONObject response = new JSONObject();
+		
+		try {
+			String speech = "you want to book flight from "+source;
+			response.put("speech", speech);
+			response.put("displayText", speech);
+			response.put("source", "gitapitest-flight");
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(response);
+		//String jsonString = ObjectToJson.getJsonString(response);
+		return response.toString();
 	}
 
 }
