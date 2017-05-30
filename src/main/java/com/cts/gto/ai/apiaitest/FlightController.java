@@ -77,7 +77,7 @@ public class FlightController {
 		//java.sql.Date sqlStartDate = new java.sql.Date(date1.getTime()); 
 		System.out.println(date1);
 		
-		String sql = "select id from flight where source = ? and destination = ? and Travel_Date = ?";
+		String sql = "select flight_id from flight where source = ? and destination = ? and Travel_Date = ?";
 		try {
 			 id = getJdbcTemplate().queryForObject(sql, new Object[]{source,destination,date1}, String.class);
 			System.out.println("requested id: "+id);
