@@ -1,0 +1,3 @@
+2017-05-29 20:03:26 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Table "FLIGHT" already exists; SQL statement:
+CREATE TABLE flight( id INTEGER, source VARCHAR(150), IATA_Code VARCHAR(150), ) [42101-194]
