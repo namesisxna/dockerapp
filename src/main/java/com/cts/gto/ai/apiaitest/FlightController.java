@@ -82,7 +82,7 @@ public class FlightController {
 			 id = getJdbcTemplate().queryForObject(sql, new Object[]{source,destination,date1}, String.class);
 			System.out.println("requested id: "+id);
 			try {
-				String speech = "Your flight from "+source +" to "+destination+" was succesfully booked by Heathrew AI support, Your flight number is: "+id;
+				String speech = "Your flight from "+source +" to "+destination+" was succesfully booked by Heathrow AI support, Your flight number is: "+id;
 				response.put("speech", speech);
 				response.put("displayText", speech);
 				response.put("source", "gitapitest-flight");
