@@ -3,6 +3,7 @@ CREATE TABLE flight(
 	source 	VARCHAR(150),
 	destination 	VARCHAR(150),
 	IATA_Code	VARCHAR(150),
+	Travel_Date         DATE,
 	
 );
 

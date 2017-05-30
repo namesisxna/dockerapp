@@ -1,6 +1,10 @@
 package com.cts.gto.ai.apiaitest;
 
 
+
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +49,7 @@ public class FlightController {
 		JSONObject jsonObject;
 		String source = "";
 		String destination = "";
+		String date = "";
 		try {
 			jsonObject = ObjectToJson.getJsonObject(query).getJSONObject("result").getJSONObject("parameters");
 			System.out.println("invoked bookFlight method");
@@ -55,8 +60,11 @@ public class FlightController {
 
 				
 			
-			 source = source = jsonObject.getString("source");
-			 destination = destination = jsonObject.getString("destination");
+			source = jsonObject.getString("source");
+			destination = jsonObject.getString("destination");
+			date = jsonObject.getString("date");
+			System.out.println("input date"+date);
+		
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,8 +75,20 @@ public class FlightController {
 //			String output = (String)row.get("source");
 //			System.out.println(output);
 //		}
-		String sql = "select id from flight where source = ? and destination = ?";
-		String id = getJdbcTemplate().queryForObject(sql, new Object[]{source,destination}, String.class);
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date1 = null;
+		try {
+			date1 = sdf1.parse(date);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		java.sql.Date sqlStartDate = new java.sql.Date(date1.getTime()); 
+		System.out.println(date1);
+		System.out.println(sqlStartDate);
+		String sql = "select id from flight where source = ? and destination = ? and Travel_Date = ?";
+		String id = getJdbcTemplate().queryForObject(sql, new Object[]{source,destination,date1}, String.class);
 		System.out.println("requested id: "+id);
 		
 		
