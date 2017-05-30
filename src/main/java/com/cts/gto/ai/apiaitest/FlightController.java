@@ -50,32 +50,22 @@ public class FlightController {
 		String source = "";
 		String destination = "";
 		String date = "";
+		JSONObject response = new JSONObject();
+		String id ="";
 		try {
 			jsonObject = ObjectToJson.getJsonObject(query).getJSONObject("result").getJSONObject("parameters");
 			System.out.println("invoked bookFlight method");
 			LOGGER.info("invoked bookFlight method");
-		
-				
-				LOGGER.info("input request geo-city:"+jsonObject.getString("destination"));
-
-				
-			
 			source = jsonObject.getString("source");
 			destination = jsonObject.getString("destination");
 			date = jsonObject.getString("date");
-			System.out.println("input date"+date);
+			
 		
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		String sql = "select * from flight";
-//		List<Map<String, Object>> rowList = getJdbcTemplate().queryForList(sql);
-//		for(Map<String, Object> row:rowList){
-//			String output = (String)row.get("source");
-//			System.out.println(output);
-//		}
-		
+//		
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date date1 = null;
 		try {
@@ -84,12 +74,39 @@ public class FlightController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		java.sql.Date sqlStartDate = new java.sql.Date(date1.getTime()); 
+		//java.sql.Date sqlStartDate = new java.sql.Date(date1.getTime()); 
 		System.out.println(date1);
-		System.out.println(sqlStartDate);
+		
 		String sql = "select id from flight where source = ? and destination = ? and Travel_Date = ?";
-		String id = getJdbcTemplate().queryForObject(sql, new Object[]{source,destination,date1}, String.class);
-		System.out.println("requested id: "+id);
+		try {
+			 id = getJdbcTemplate().queryForObject(sql, new Object[]{source,destination,date1}, String.class);
+			System.out.println("requested id: "+id);
+			try {
+				String speech = "Your flight from "+source +" to "+destination+" was succesfully booked by Heathrew AI support, Your flight number is: "+id;
+				response.put("speech", speech);
+				response.put("displayText", speech);
+				response.put("source", "gitapitest-flight");
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			try {
+				String speech = "Sorry no flights avaiable from "+source +" to "+destination +" in these date";
+				response.put("speech", speech);
+				response.put("displayText", speech);
+				response.put("source", "gitapitest-flight");
+				
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
 		
 		
 		
@@ -103,18 +120,8 @@ public class FlightController {
 //	        # "contextOut": [],
 //	        "source": "apiai-weather-webhook-sample"
 //	    }
-		JSONObject response = new JSONObject();
+				
 		
-		try {
-			String speech = "Your flight from "+source +" to "+destination+" was succesfully booked by Heathrew AI support, Your flight number is: "+id;
-			response.put("speech", speech);
-			response.put("displayText", speech);
-			response.put("source", "gitapitest-flight");
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		System.out.println(response);
 		//String jsonString = ObjectToJson.getJsonString(response);
 		return response.toString();
