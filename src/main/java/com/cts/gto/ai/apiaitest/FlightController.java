@@ -3,6 +3,7 @@ package com.cts.gto.ai.apiaitest;
 
 
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -96,10 +97,35 @@ public class FlightController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			try {
-				String speech = "Sorry no flights avaiable from "+source +" to "+destination +" in these date";
-				response.put("speech", speech);
-				response.put("displayText", speech);
-				response.put("source", "gitapitest-flight");
+				String sql1 = "select Travel_Date from flight where source = ? and destination = ? and Travel_Date > ?";
+				List<Date> queryForList = getJdbcTemplate().queryForList(sql1, new Object[]{source,destination,date1}, Date.class);
+				if(queryForList.size() == 0){
+					String speech = "Sorry no flights avaiable from "+source +" to "+destination +" in these date";
+					response.put("speech", speech);
+					response.put("displayText", speech);
+					response.put("source", "gitapitest-flight");
+					
+				}
+				else {
+					String newline = System.getProperty("line.separator");
+					String speech = "Sorry no flights avaiable. You may be interested to book at these date";
+					StringBuilder sb = new StringBuilder();
+					for(Date date2:queryForList){
+						System.out.println("inside for loop");
+						System.out.println(date2);
+						sb.append(date2).append(newline);
+						
+						
+					}
+					
+					response.put("speech", speech);
+					response.put("displayText", speech+newline+sb.toString());
+					response.put("source", "gitapitest-flight");
+					
+				}
+				
+				
+				
 				
 			} catch (JSONException e1) {
 				// TODO Auto-generated catch block
