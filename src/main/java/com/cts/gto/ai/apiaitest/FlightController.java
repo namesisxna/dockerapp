@@ -108,7 +108,7 @@ public class FlightController {
 				}
 				else {
 					String newline = System.getProperty("line.separator");
-					String speech = "Sorry no flights avaiable. You may be interested to book at these date";
+					String speech = "Sorry no flights avaiable. You may be interested to book in these date";
 					StringBuilder sb = new StringBuilder();
 					for(Date date2:queryForList){
 						System.out.println("inside for loop");
@@ -119,7 +119,7 @@ public class FlightController {
 					}
 					
 					response.put("speech", speech);
-					response.put("displayText", speech+newline+sb.toString());
+					response.put("displayText", speech+newline+sb.toString()+"Do you want to continue");
 					response.put("source", "gitapitest-flight");
 					
 				}
