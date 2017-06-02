@@ -154,31 +154,7 @@ public class FlightController {
 	}
 	
 	
-	@RequestMapping(value = "/bookFlight", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public String userconfirmation(@RequestBody() String query) {
-		JSONObject jsonObject;
-		String userSays = "";
-		
-		JSONObject response = new JSONObject();
-		String id ="";
-		try {
-			jsonObject = ObjectToJson.getJsonObject(query).getJSONObject("result").getJSONObject("parameters");
-			System.out.println("invoked bookFlight method");
-			LOGGER.info("invoked bookFlight method");
-			userSays = jsonObject.getString("flighjt-Intent2");
-			
-			
-		
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	
-		
-		
-		return response.toString();
-	}
 
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
